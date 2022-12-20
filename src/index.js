@@ -27,7 +27,13 @@ const onFormSubmit = event => {
 
   loadMoreButton.remove();
 
-  showImages(currentQuery, refs.galleryItem, loadMoreButton);
+  const imagesCount = showImages(
+    currentQuery,
+    refs.galleryItem,
+    loadMoreButton
+  );
+
+  Notiflix.Notify.success(`Hooray! We found ${imagesCount} images.`);
 };
 
 refs.formElement.addEventListener('submit', onFormSubmit);
@@ -40,4 +46,4 @@ const onLoadMoreClick = event => {
 
 refs.loadMoreButton.addEventListener('click', onLoadMoreClick);
 
-// try catch
+// try catch;
