@@ -1,15 +1,8 @@
 import axios from 'axios';
+import { options } from './query-options';
 
 const getPictures = async input => {
-  const options = {
-    key: '32195177-b6f496b0ec037ea4cdfde6da3',
-    q: input,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: true,
-    page: 1,
-  };
-
+  options.q = input;
   const params = new URLSearchParams(options);
 
   const response = await axios(`https://pixabay.com/api/?${params}`);
