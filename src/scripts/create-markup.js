@@ -2,7 +2,9 @@ const createImagesMarkup = images => {
   return images
     .map(image => {
       return `<div class="gallery__card">
-        <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" class="gallery__image"/>
+      <a href="${image.largeImageURL}">
+      <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" class="gallery__image"/>
+      </a>
         <div class="gallery__info">
           <p class="gallery__item">
             <b>Likes: ${image.likes}</b>
