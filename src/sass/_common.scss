@@ -1,1 +1,12 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background-color: wheat;
+  padding-bottom: 20px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 20px;
+}

@@ -1,10 +1,9 @@
-.hidden {
-  display: none;
+.form {
+  text-align: center;
 }
 
-.load-more {
-  width: 100%;
-  margin-top: 20px;
+.form__input,
+.form__button {
   padding: 10px;
   border: 2px solid rosybrown;
   border-radius: 4px;
@@ -13,6 +12,22 @@
   font-weight: 600;
   transition: color 250ms cubic-bezier(0.075, 0.82, 0.165, 1),
     background-color 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.form__input {
+  &:focus-within {
+    outline: 2px solid burlywood;
+    background-color: rosybrown;
+    color: whitesmoke;
+  }
+
+  &::placeholder {
+    font-weight: 200;
+    color: rgba(188, 143, 143, 0.4);
+  }
+}
+
+.form__button {
   cursor: pointer;
 
   &:focus,
