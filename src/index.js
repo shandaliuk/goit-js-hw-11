@@ -27,18 +27,12 @@ const onFormSubmit = event => {
 
   loadMoreButton.remove();
 
-  const imagesCount = showImages(
-    currentQuery,
-    refs.galleryItem,
-    loadMoreButton
-  );
-
-  Notiflix.Notify.success(`Hooray! We found ${imagesCount} images.`);
+  showImages(currentQuery, refs.galleryItem, loadMoreButton);
 };
 
 refs.formElement.addEventListener('submit', onFormSubmit);
 
-const onLoadMoreClick = event => {
+const onLoadMoreClick = () => {
   options.page += 1;
 
   showImages(currentQuery, refs.galleryItem, loadMoreButton);

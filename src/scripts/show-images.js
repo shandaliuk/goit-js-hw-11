@@ -17,13 +17,11 @@ const showImages = async (query, destinationElement, loadButton) => {
 
   destinationElement.insertAdjacentHTML(
     'beforeend',
-    createImagesMarkup(response.images)
+    createImagesMarkup(response)
   );
 
   loadButton.show();
   loadButton.enable();
-
-  return response.imagesCount;
 };
 
 export { showImages };

@@ -5,7 +5,7 @@ const options = {
   orientation: 'horizontal',
   safesearch: true,
   page: 1,
-  per_page: 100,
+  per_page: 40,
 };
 
 export { options };
