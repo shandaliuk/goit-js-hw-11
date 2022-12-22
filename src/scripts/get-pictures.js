@@ -11,22 +11,20 @@ const getPictures = async input => {
 
   const totalImagesCount = response.data.totalHits;
 
-  const currentImagesCount = response.data.hits.length;
+  // const currentImagesCount = response.data.hits.length;
 
   if (totalImagesCount === 0) {
     throw new Error(
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
-  if (currentImagesCount === 0) {
-    throw new Error(
-      "We're sorry, but you've reached the end of search results."
-    );
-  }
+  // if (currentImagesCount === 0) {
+  //   throw new Error(
+  //     "We're sorry, but you've reached the end of search results."
+  //   );
+  // }
 
-  if (options.page === 1) {
-    Notiflix.Notify.success(`Hooray! We found ${totalImagesCount} images.`);
-  }
+  Notiflix.Notify.success(`Hooray! We found ${totalImagesCount} images.`);
 
   return response.data.hits;
 };

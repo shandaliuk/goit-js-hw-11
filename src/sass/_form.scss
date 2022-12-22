@@ -11,11 +11,10 @@
 
 .form__input,
 .form__button {
-  width: 400px;
-  border: 2px solid rosybrown;
+  border: 2px solid maroon;
   border-radius: 4px;
   background-color: whitesmoke;
-  color: rosybrown;
+  color: maroon;
   font-weight: 600;
   transition: color 250ms cubic-bezier(0.075, 0.82, 0.165, 1),
     background-color 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -24,6 +23,16 @@
 .form__input {
   padding: 15px;
   padding-right: 90px;
+  width: 300px;
+
+  @media screen and (min-width: 468px) {
+    width: 400px;
+  }
+
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
   &:focus-within {
     outline: 2px solid burlywood;
     background-color: rosybrown;
@@ -41,6 +50,10 @@
   top: 5px;
   right: 5px;
   width: 80px;
+
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 
   padding: 10px;
   cursor: pointer;

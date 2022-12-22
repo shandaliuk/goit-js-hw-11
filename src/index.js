@@ -12,7 +12,7 @@ let currentQuery = '';
 
 const submitButton = new LoadButton(refs.submitButton);
 
-const onFormSubmit = event => {
+const onFormSubmit = async event => {
   event.preventDefault();
 
   const { searchQuery } = event.currentTarget.elements;
@@ -21,9 +21,9 @@ const onFormSubmit = event => {
 
   refs.galleryElement.innerHTML = '';
 
-  showImages(currentQuery, refs.galleryElement, submitButton);
+  await showImages(currentQuery, refs.galleryElement, submitButton);
 
-  makeInfiniteScroll(refs.galleryElement, currentQuery);
+  await makeInfiniteScroll(refs.galleryElement, currentQuery);
 };
 
 refs.formElement.addEventListener('submit', onFormSubmit);
