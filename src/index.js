@@ -30,5 +30,3 @@ const onFormSubmit = async event => {
 };
 
 refs.formElement.addEventListener('submit', onFormSubmit);
-
-// try catch;
