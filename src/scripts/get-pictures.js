@@ -11,18 +11,11 @@ const getPictures = async input => {
 
   const totalImagesCount = response.data.totalHits;
 
-  // const currentImagesCount = response.data.hits.length;
-
   if (totalImagesCount === 0) {
     throw new Error(
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
-  // if (currentImagesCount === 0) {
-  //   throw new Error(
-  //     "We're sorry, but you've reached the end of search results."
-  //   );
-  // }
 
   Notiflix.Notify.success(`Hooray! We found ${totalImagesCount} images.`);
 

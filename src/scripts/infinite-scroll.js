@@ -1,15 +1,12 @@
 import InfiniteScroll from 'infinite-scroll';
+import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { options } from './query-options';
 import { createImagesMarkup } from './create-markup';
-import Notiflix from 'notiflix';
+import { addSmoothLoading } from './smooth-loading';
 
-const refs = {
-  ellipse: document.querySelector('.infinite-scroll-request'),
-};
-
-const makeInfiniteScroll = async (destinationElement, input) => {
+const makeInfiniteScroll = async (destinationElement, loadAnimation) => {
   const params = new URLSearchParams(options);
 
   const scrollOptions = {
@@ -25,10 +22,11 @@ const makeInfiniteScroll = async (destinationElement, input) => {
     infScroll.destroy();
     infScroll = new InfiniteScroll(destinationElement, scrollOptions);
   }
-
   infScroll.isActive = true;
 
   const lightbox = new SimpleLightbox('.gallery a');
+
+  loadAnimation.create();
 
   const onLoad = result => {
     destinationElement.insertAdjacentHTML(
@@ -41,26 +39,19 @@ const makeInfiniteScroll = async (destinationElement, input) => {
         "We're sorry, but you've reached the end of search results."
       );
       infScroll.destroy();
-      refs.ellipse.classList.add('hidden');
+      loadAnimation.hide();
       return;
     }
 
     lightbox.refresh();
 
-    const { height: cardHeight } = document
-      .querySelector('.gallery')
-      .firstElementChild.getBoundingClientRect();
+    addSmoothLoading(destinationElement);
 
-    window.scrollBy({
-      top: cardHeight * 1,
-      behavior: 'smooth',
-    });
-
-    refs.ellipse.classList.add('hidden');
+    loadAnimation.hide();
   };
 
   const onThreshold = () => {
-    refs.ellipse.classList.remove('hidden');
+    loadAnimation.show();
   };
 
   infScroll.on('scrollThreshold', onThreshold);
