@@ -2,6 +2,7 @@ import { showImages } from './scripts/show-images';
 import { makeInfiniteScroll } from './scripts/infinite-scroll';
 import { LoadButton } from './scripts/load-button';
 import { LoadingAnimation } from './scripts/loading-animation';
+import { options } from './scripts/query-options';
 
 const refs = {
   galleryElement: document.querySelector('.gallery'),
@@ -9,8 +10,6 @@ const refs = {
   submitButton: document.querySelector('.form__button'),
   loadingStatusElement: document.querySelector('.page-load-status'),
 };
-
-let currentQuery = '';
 
 const submitButton = new LoadButton(refs.submitButton);
 
@@ -21,11 +20,11 @@ const onFormSubmit = async event => {
 
   const { searchQuery } = event.currentTarget.elements;
 
-  currentQuery = searchQuery.value;
+  options.q = searchQuery.value;
 
   refs.galleryElement.innerHTML = '';
 
-  await showImages(currentQuery, refs.galleryElement, submitButton);
+  await showImages(refs.galleryElement, submitButton);
 
   await makeInfiniteScroll(refs.galleryElement, loadingAnimation);
 };

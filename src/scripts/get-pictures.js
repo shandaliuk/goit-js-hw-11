@@ -2,9 +2,7 @@ import axios from 'axios';
 import Notiflix from 'notiflix';
 import { options } from './query-options';
 
-const getPictures = async input => {
-  options.q = input;
-
+const getPictures = async () => {
   const params = new URLSearchParams(options);
 
   const response = await axios(`https://pixabay.com/api/?${params}`);
