@@ -1,10 +1,17 @@
 .form {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+}
+
+.form__wrapper {
+  position: relative;
 }
 
 .form__input,
 .form__button {
-  padding: 10px;
+  width: 400px;
   border: 2px solid rosybrown;
   border-radius: 4px;
   background-color: whitesmoke;
@@ -15,6 +22,8 @@
 }
 
 .form__input {
+  padding: 15px;
+  padding-right: 90px;
   &:focus-within {
     outline: 2px solid burlywood;
     background-color: rosybrown;
@@ -28,6 +37,12 @@
 }
 
 .form__button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 80px;
+
+  padding: 10px;
   cursor: pointer;
 
   &:focus,

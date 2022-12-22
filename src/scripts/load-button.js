@@ -1,4 +1,4 @@
-class LoadMoreButton {
+class LoadButton {
   constructor(button) {
     this.button = button;
     this.initialText = button.textContent;
@@ -14,7 +14,9 @@ class LoadMoreButton {
 
   disable() {
     this.button.disabled = true;
-    this.button.textContent = 'Loading';
+    const loaderWheel =
+      '<div class="loader-wheel"><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></div>';
+    this.button.innerHTML = loaderWheel;
   }
 
   enable() {
@@ -23,4 +25,4 @@ class LoadMoreButton {
   }
 }
 
-export { LoadMoreButton };
+export { LoadButton };

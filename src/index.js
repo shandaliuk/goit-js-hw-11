@@ -1,43 +1,31 @@
-import Notiflix from 'notiflix';
 import { showImages } from './scripts/show-images';
-import { options } from './scripts/query-options';
-import { LoadMoreButton } from './scripts/load-more-button';
+import { LoadButton } from './scripts/load-button';
+import { makeInfiniteScroll } from './scripts/infinite-scroll';
 
 const refs = {
-  galleryItem: document.querySelector('.gallery'),
+  galleryElement: document.querySelector('.gallery'),
   formElement: document.querySelector('.form'),
-  loadMoreButton: document.querySelector('.load-more'),
   submitButton: document.querySelector('.form__button'),
 };
 
 let currentQuery = '';
 
-const loadMoreButton = new LoadMoreButton(refs.loadMoreButton);
+const submitButton = new LoadButton(refs.submitButton);
 
 const onFormSubmit = event => {
   event.preventDefault();
-
-  options.page = 1;
 
   const { searchQuery } = event.currentTarget.elements;
 
   currentQuery = searchQuery.value;
 
-  refs.galleryItem.innerHTML = '';
+  refs.galleryElement.innerHTML = '';
 
-  loadMoreButton.remove();
+  showImages(currentQuery, refs.galleryElement, submitButton);
 
-  showImages(currentQuery, refs.galleryItem, loadMoreButton);
+  makeInfiniteScroll(refs.galleryElement, currentQuery);
 };
 
 refs.formElement.addEventListener('submit', onFormSubmit);
-
-const onLoadMoreClick = () => {
-  options.page += 1;
-
-  showImages(currentQuery, refs.galleryItem, loadMoreButton);
-};
-
-refs.loadMoreButton.addEventListener('click', onLoadMoreClick);
 
 // try catch;
