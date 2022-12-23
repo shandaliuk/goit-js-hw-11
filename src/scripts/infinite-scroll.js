@@ -1,12 +1,14 @@
 import InfiniteScroll from 'infinite-scroll';
-import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-import { options } from './query-options';
 import { createImagesMarkup } from './create-markup';
 import { addSmoothLoading } from './smooth-loading';
 
-const makeInfiniteScroll = async (destinationElement, loadAnimation) => {
+const makeInfiniteScroll = async ({
+  destinationElement,
+  loadAnimation,
+  options,
+  lightbox,
+}) => {
   const params = new URLSearchParams(options);
 
   const scrollOptions = {
@@ -24,8 +26,6 @@ const makeInfiniteScroll = async (destinationElement, loadAnimation) => {
   }
   infScroll.isActive = true;
 
-  const lightbox = new SimpleLightbox('.gallery a');
-
   loadAnimation.create();
 
   const onLoad = result => {
@@ -34,20 +34,19 @@ const makeInfiniteScroll = async (destinationElement, loadAnimation) => {
       createImagesMarkup(result.hits)
     );
 
-    if (result.hits.length === 0) {
-      Notiflix.Notify.failure(
-        "We're sorry, but you've reached the end of search results."
-      );
-      infScroll.destroy();
-      loadAnimation.hide();
-      return;
-    }
-
     lightbox.refresh();
 
     addSmoothLoading(destinationElement);
 
     loadAnimation.hide();
+
+    if (result.hits.length < options.per_page) {
+      infScroll.destroy();
+      loadAnimation.hide();
+      throw new Error(
+        "We're sorry, but you've reached the end of search results."
+      );
+    }
   };
 
   const onThreshold = () => {

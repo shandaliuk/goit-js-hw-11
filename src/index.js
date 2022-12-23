@@ -1,8 +1,5 @@
 import { showImages } from './scripts/show-images';
-import { makeInfiniteScroll } from './scripts/infinite-scroll';
 import { LoadButton } from './scripts/load-button';
-import { LoadingAnimation } from './scripts/loading-animation';
-import { options } from './scripts/query-options';
 
 const refs = {
   galleryElement: document.querySelector('.gallery'),
@@ -13,20 +10,28 @@ const refs = {
 
 const submitButton = new LoadButton(refs.submitButton);
 
-const loadingAnimation = new LoadingAnimation(refs.loadingStatusElement);
-
 const onFormSubmit = async event => {
   event.preventDefault();
 
   const { searchQuery } = event.currentTarget.elements;
 
-  options.q = searchQuery.value;
-
   refs.galleryElement.innerHTML = '';
 
-  await showImages(refs.galleryElement, submitButton);
+  const queryOptions = {
+    key: '32195177-b6f496b0ec037ea4cdfde6da3',
+    q: searchQuery.value,
+    image_type: 'photo',
+    orientation: 'horizontal',
+    safesearch: true,
+    per_page: 40,
+  };
 
-  await makeInfiniteScroll(refs.galleryElement, loadingAnimation);
+  await showImages({
+    destinationElement: refs.galleryElement,
+    loadingAnimationElement: refs.loadingStatusElement,
+    loadButton: submitButton,
+    options: queryOptions,
+  });
 };
 
 refs.formElement.addEventListener('submit', onFormSubmit);
