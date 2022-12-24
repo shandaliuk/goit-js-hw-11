@@ -5,6 +5,7 @@ import { getPictures } from './get-pictures';
 import { createImagesMarkup } from './create-markup';
 import { makeInfiniteScroll } from './infinite-scroll';
 import { LoadButton } from './load-button';
+import InfiniteScroll from 'infinite-scroll';
 
 const showImages = async (destinationElement, options) => {
   const submitButton = new LoadButton(document.querySelector('.form__button'));
@@ -31,18 +32,23 @@ const showImages = async (destinationElement, options) => {
 
     submitButton.enable();
 
-    if (images.length < options.per_page) {
-      throw new Error(
-        "We're sorry, but you've reached the end of search results."
-      );
-    }
-    makeInfiniteScroll({
+    const infiniteScroll = makeInfiniteScroll({
       destinationElement,
       options,
       lightbox: simpleLightbox,
     });
+
+    if (images.length < options.per_page) {
+      infiniteScroll.destroy();
+
+      throw new Error(
+        "We're sorry, but you've reached the end of search results."
+      );
+    }
   } catch (error) {
-    Notiflix.Notify.failure(error.message);
+    Notiflix.Notify.failure(error.message, {
+      timeout: 5000,
+    });
     submitButton.enable();
     return;
   }

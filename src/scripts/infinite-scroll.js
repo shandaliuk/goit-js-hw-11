@@ -55,6 +55,8 @@ const makeInfiniteScroll = ({ destinationElement, options, lightbox }) => {
   infScroll.on('scrollThreshold', onThreshold);
 
   infScroll.on('load', onLoad);
+
+  return infScroll;
 };
 
 export { makeInfiniteScroll };
