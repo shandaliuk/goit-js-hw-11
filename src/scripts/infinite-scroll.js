@@ -1,14 +1,9 @@
 import InfiniteScroll from 'infinite-scroll';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 import { createImagesMarkup } from './create-markup';
 import { addSmoothLoading } from './smooth-loading';
+import { LoadingAnimation } from './loading-animation';
 
-const makeInfiniteScroll = async ({
-  destinationElement,
-  loadAnimation,
-  options,
-  lightbox,
-}) => {
+const makeInfiniteScroll = ({ destinationElement, options, lightbox }) => {
   const params = new URLSearchParams(options);
 
   const scrollOptions = {
@@ -26,7 +21,11 @@ const makeInfiniteScroll = async ({
   }
   infScroll.isActive = true;
 
-  loadAnimation.create();
+  const loadingAnimation = new LoadingAnimation(
+    document.querySelector('.page-load-status')
+  );
+
+  loadingAnimation.create();
 
   const onLoad = result => {
     destinationElement.insertAdjacentHTML(
@@ -38,11 +37,11 @@ const makeInfiniteScroll = async ({
 
     addSmoothLoading(destinationElement);
 
-    loadAnimation.hide();
+    loadingAnimation.hide();
 
     if (result.hits.length < options.per_page) {
       infScroll.destroy();
-      loadAnimation.hide();
+      loadingAnimation.hide();
       throw new Error(
         "We're sorry, but you've reached the end of search results."
       );
@@ -50,7 +49,7 @@ const makeInfiniteScroll = async ({
   };
 
   const onThreshold = () => {
-    loadAnimation.show();
+    loadingAnimation.show();
   };
 
   infScroll.on('scrollThreshold', onThreshold);

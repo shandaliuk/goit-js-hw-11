@@ -1,22 +1,19 @@
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import { getPictures } from './get-pictures';
 import { createImagesMarkup } from './create-markup';
-import { LoadingAnimation } from './loading-animation';
 import { makeInfiniteScroll } from './infinite-scroll';
+import { LoadButton } from './load-button';
 
-const showImages = async ({
-  destinationElement,
-  loadingAnimationElement,
-  loadButton,
-  options,
-}) => {
-  loadButton.disable();
+const showImages = async (destinationElement, options) => {
+  const submitButton = new LoadButton(document.querySelector('.form__button'));
+
+  submitButton.disable();
 
   try {
     const response = await getPictures(options);
     const { images, overallImagesCount } = response;
-    const totalImagesCount = images.length;
 
     if (overallImagesCount === 0) {
       throw new Error(
@@ -26,32 +23,27 @@ const showImages = async ({
 
     Notiflix.Notify.success(`Hooray! We found ${overallImagesCount} images.`);
 
-    destinationElement.insertAdjacentHTML(
-      'beforeend',
-      createImagesMarkup(images)
-    );
+    destinationElement.innerHTML = createImagesMarkup(images);
+
+    scroll(0, 0);
 
     const simpleLightbox = new SimpleLightbox('.gallery a');
 
-    loadButton.enable();
+    submitButton.enable();
 
-    if (totalImagesCount < options.per_page) {
+    if (images.length < options.per_page) {
       throw new Error(
         "We're sorry, but you've reached the end of search results."
       );
     }
-
-    const loadingAnimation = new LoadingAnimation(loadingAnimationElement);
-
-    await makeInfiniteScroll({
+    makeInfiniteScroll({
       destinationElement,
-      loadAnimation: loadingAnimation,
       options,
       lightbox: simpleLightbox,
     });
   } catch (error) {
     Notiflix.Notify.failure(error.message);
-    loadButton.enable();
+    submitButton.enable();
     return;
   }
 };
