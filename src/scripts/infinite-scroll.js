@@ -2,6 +2,7 @@ import InfiniteScroll from 'infinite-scroll';
 import { createImagesMarkup } from './create-markup';
 import { addSmoothLoading } from './smooth-loading';
 import { LoadingAnimation } from './loading-animation';
+import Notiflix from 'notiflix';
 
 const makeInfiniteScroll = ({ destinationElement, options, lightbox }) => {
   const params = new URLSearchParams(options);
@@ -42,9 +43,11 @@ const makeInfiniteScroll = ({ destinationElement, options, lightbox }) => {
     if (result.hits.length < options.per_page) {
       infScroll.destroy();
       loadingAnimation.hide();
-      throw new Error(
-        "We're sorry, but you've reached the end of search results."
+      Notiflix.Notify.failure(
+        "We're sorry, but you've reached the end of search results.",
+        { timeout: 6000 }
       );
+      return;
     }
   };
 

@@ -5,7 +5,6 @@ import { getPictures } from './get-pictures';
 import { createImagesMarkup } from './create-markup';
 import { makeInfiniteScroll } from './infinite-scroll';
 import { LoadButton } from './load-button';
-import InfiniteScroll from 'infinite-scroll';
 
 const showImages = async (destinationElement, options) => {
   const submitButton = new LoadButton(document.querySelector('.form__button'));
@@ -14,6 +13,7 @@ const showImages = async (destinationElement, options) => {
 
   try {
     const response = await getPictures(options);
+
     const { images, overallImagesCount } = response;
 
     if (overallImagesCount === 0) {
@@ -22,7 +22,14 @@ const showImages = async (destinationElement, options) => {
       );
     }
 
-    Notiflix.Notify.success(`Hooray! We found ${overallImagesCount} images.`);
+    Notiflix.Notify.init({
+      width: '480px',
+      position: 'right-bottom',
+    });
+
+    Notiflix.Notify.success(`Hooray! We found ${overallImagesCount} images.`, {
+      timeout: 1000,
+    });
 
     destinationElement.innerHTML = createImagesMarkup(images);
 
@@ -46,9 +53,7 @@ const showImages = async (destinationElement, options) => {
       );
     }
   } catch (error) {
-    Notiflix.Notify.failure(error.message, {
-      timeout: 5000,
-    });
+    Notiflix.Notify.failure(error.message, { timeout: 6000 });
     submitButton.enable();
     return;
   }
